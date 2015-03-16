@@ -22,8 +22,8 @@ public class MenuFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_menu,viewGroup,false);
 
         frag = new ScanFrag();
         fragmentTransaction = getFragmentManager().beginTransaction().add(R.id.container, frag);

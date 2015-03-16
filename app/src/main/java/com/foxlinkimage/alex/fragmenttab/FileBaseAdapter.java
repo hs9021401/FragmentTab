@@ -1,5 +1,6 @@
 package com.foxlinkimage.alex.fragmenttab;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,10 +15,13 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 
+import eu.janmuller.android.simplecropimage.CropImage;
+
 /**
  * Created by Alex on 2015/3/16.
  */
 public class FileBaseAdapter extends BaseAdapter {
+    public static final int REQUEST_CODE_CROP_IMAGE  = 0x01;
     ArrayList<File> files;
     LayoutInflater mInflater;
     Context context;
@@ -84,7 +88,14 @@ public class FileBaseAdapter extends BaseAdapter {
                 viewHolder.crop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //使用第三方library, 幫助切割
+                        Intent it = new Intent(context, CropImage.class);
+                        String file_path = file_judgement.getPath();
+                        it.putExtra(CropImage.IMAGE_PATH, file_path);
+                        it.putExtra(CropImage.SCALE, true);
+                        it.putExtra(CropImage.ASPECT_X, 3);
+                        it.putExtra(CropImage.ASPECT_Y, 2);
+                        ((Activity)context).startActivityForResult(it, REQUEST_CODE_CROP_IMAGE);
                     }
                 });
                 //分享圖片

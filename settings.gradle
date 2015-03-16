@@ -1,1 +1,2 @@
 include ':app'
+include 'cropimage-master:simple-crop-image-lib'
