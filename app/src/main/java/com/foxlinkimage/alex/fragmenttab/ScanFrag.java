@@ -17,7 +17,6 @@ public class ScanFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_scan,null);
-
         return rootView;
     }
 }

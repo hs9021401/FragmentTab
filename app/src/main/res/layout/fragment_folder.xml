@@ -12,4 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fileList" />
+
+    <!-- 顯示資料夾內為空的訊息-->
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/empty"
+        android:textColor="#f93f"
+        android:textSize="30sp"
+        />
 </LinearLayout>

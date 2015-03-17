@@ -35,11 +35,10 @@
         android:layout_weight="1"
         />
 
-    <Button
+    <CheckBox
+        android:id="@+id/multiSelect"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="@string/share"
-        android:id="@+id/share"
         android:layout_weight="1"
-        />
+     />
 </LinearLayout>

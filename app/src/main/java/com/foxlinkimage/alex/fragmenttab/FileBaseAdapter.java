@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +60,6 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.icon = (ImageView) view.findViewById(R.id.icon);
             viewHolder.filename = (TextView) view.findViewById(R.id.filename);
             viewHolder.crop = (Button) view.findViewById(R.id.crop);
-            viewHolder.share = (Button) view.findViewById(R.id.share);
             viewHolder.view = (Button) view.findViewById(R.id.view);
 
             viewHolder.filename.setText(files.get(position).getName());
@@ -69,8 +69,13 @@ public class FileBaseAdapter extends BaseAdapter {
             {
                 viewHolder.icon.setImageResource(R.drawable.icon_folder);
                 viewHolder.crop.setVisibility(View.INVISIBLE);
-                viewHolder.share.setVisibility(View.INVISIBLE);
                 viewHolder.view.setVisibility(View.INVISIBLE);
+                viewHolder.icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Pressed Folder", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }else
             {
                 viewHolder.icon.setImageResource(R.drawable.icon_image);
@@ -98,13 +103,6 @@ public class FileBaseAdapter extends BaseAdapter {
                         ((Activity)context).startActivityForResult(it, REQUEST_CODE_CROP_IMAGE);
                     }
                 });
-                //分享圖片
-                viewHolder.share.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
             }
             view.setTag(viewHolder);
         }else
@@ -119,7 +117,6 @@ public class FileBaseAdapter extends BaseAdapter {
         ImageView icon;
         TextView filename;
         Button crop;
-        Button share;
         Button view;
     }
 }
