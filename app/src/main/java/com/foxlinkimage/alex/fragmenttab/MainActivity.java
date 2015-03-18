@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
     public final static int MENU_OPTION_SHARE = Menu.FIRST, MENU_OPTION_DELETE = Menu.FIRST +1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

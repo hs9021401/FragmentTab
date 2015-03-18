@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,8 +39,9 @@ public class FileBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Object getItem(int position)
+    {
+        return files.get(position);
     }
 
     @Override
@@ -53,6 +54,9 @@ public class FileBaseAdapter extends BaseAdapter {
         //使用ViewHolder Pattern(Google強烈建議使用), 目的在於降低因為在上下滑動時所造成多次getView()動作所導致的效率差現象
         //可參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
         ViewHolder viewHolder;
+        //判斷是icon或者是folder
+        final File file_judgement = files.get(position);
+
         if(view == null) {
             mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = mInflater.inflate(R.layout.file_item,viewGroup,false);
@@ -61,21 +65,22 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.filename = (TextView) view.findViewById(R.id.filename);
             viewHolder.crop = (Button) view.findViewById(R.id.crop);
             viewHolder.view = (Button) view.findViewById(R.id.view);
+            viewHolder.multiselect = (CheckBox) view.findViewById(R.id.multiSelect);
+            if(file_judgement.getPath().equals(FolderFrag.root_FolderPath))
+            {
+                viewHolder.filename.setText("...");
+                viewHolder.multiselect.setVisibility(View.INVISIBLE);
+            }else {
+                viewHolder.filename.setText(files.get(position).getName());
+            }
 
-            viewHolder.filename.setText(files.get(position).getName());
-            //判斷是icon或者是folder
-            final File file_judgement = files.get(position);
+
+            //Folder
             if(file_judgement.isDirectory())
             {
                 viewHolder.icon.setImageResource(R.drawable.icon_folder);
                 viewHolder.crop.setVisibility(View.INVISIBLE);
                 viewHolder.view.setVisibility(View.INVISIBLE);
-                viewHolder.icon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Pressed Folder", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }else
             {
                 viewHolder.icon.setImageResource(R.drawable.icon_image);
@@ -118,5 +123,7 @@ public class FileBaseAdapter extends BaseAdapter {
         TextView filename;
         Button crop;
         Button view;
+        CheckBox multiselect;
     }
+
 }

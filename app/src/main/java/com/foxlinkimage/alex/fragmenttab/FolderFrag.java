@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,25 +19,51 @@ import java.util.ArrayList;
  * Created by Alex on 2015/3/11.
  */
 public class FolderFrag extends Fragment{
-    public final static String folder_Path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/MyPicFolder";
+    public final static String root_FolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/MyPicFolder";
+    FileBaseAdapter fileBaseAdapter;
+    TextView location;
     ListView fileList;
 
     public FolderFrag()
     {}
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //分享與刪除的功能callback
-
-        return super.onOptionsItemSelected(item);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_folder, container, false);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //List all the file in the folder
-        ArrayList<File> FilesInFolder = GetFiles(folder_Path);
+        location = (TextView)view.findViewById(R.id.location);
+        location.setText(root_FolderPath);
+
+        //取得資料夾內所有的檔案(包含子資料夾)
+        final ArrayList<File> FilesInFolder = GetFiles(root_FolderPath);
         fileList = (ListView)getActivity().findViewById(R.id.fileList);
+        fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                File tmp = FilesInFolder.get(position);
+                String tmp_path = tmp.getPath();
+                if(tmp.isDirectory())
+                {
+                    location.setText(tmp.getPath());
+                    FilesInFolder.clear();
+                    ArrayList<File> getSubFolderFile = GetFiles(tmp.getPath());
+                    if(!tmp_path.equals(root_FolderPath)) {
+                        FilesInFolder.add(tmp.getParentFile());
+                    }
+                    for(int i=0;i<getSubFolderFile.size();i++)
+                    {
+                        FilesInFolder.add(getSubFolderFile.get(i));
+                    }
+
+                    fileList.setAdapter(fileBaseAdapter);
+                }
+            }
+        });
 
         //如果資料夾內是空的話, 顯示no file訊息
         if(FilesInFolder== null)
@@ -46,16 +74,12 @@ public class FolderFrag extends Fragment{
                 * 將Context也傳過去, 因為使用inflater時會需要, Google文件如下
                 * LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 * */
-            fileList.setAdapter(new FileBaseAdapter(getActivity(), FilesInFolder));
+
+            fileBaseAdapter = new FileBaseAdapter(getActivity(), FilesInFolder);
+            fileList.setAdapter(fileBaseAdapter);
         }
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_folder, container, false);
-        return rootView;
-    }
 
     public ArrayList<File> GetFiles(String DirectoryPath)
     {
@@ -72,4 +96,9 @@ public class FolderFrag extends Fragment{
         return MyFiles;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //右上角Menu分享與刪除的功能
+        return super.onOptionsItemSelected(item);
+    }
 }
