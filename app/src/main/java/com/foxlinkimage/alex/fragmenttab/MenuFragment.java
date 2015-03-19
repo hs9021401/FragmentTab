@@ -29,9 +29,9 @@ public class MenuFragment extends Fragment {
         fragmentTransaction = getFragmentManager().beginTransaction().add(R.id.container, frag);
         fragmentTransaction.commit();
 
-        Button btnScan = (Button)view.findViewById(R.id.buttonScan);
-        Button btnFolder = (Button)view.findViewById(R.id.buttonFolder);
-        Button btnSetting = (Button)view.findViewById(R.id.buttonSetting);
+        Button btnScan = (Button)view.findViewById(R.id.MenuBtnScan);
+        Button btnFolder = (Button)view.findViewById(R.id.MenuBtnFolder);
+        Button btnSetting = (Button)view.findViewById(R.id.MenuBtnSetting);
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override

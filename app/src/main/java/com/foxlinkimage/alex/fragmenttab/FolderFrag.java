@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by Alex on 2015/3/11.
  */
 public class FolderFrag extends Fragment{
-    public final static String root_FolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/MyPicFolder";
+    final static String root_FolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/MyPicFolder";
     FileBaseAdapter fileBaseAdapter;
     TextView location;
     ListView fileList;

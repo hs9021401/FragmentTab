@@ -7,12 +7,20 @@
     tools:context=".MainActivity$PlaceholderFragment">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scan Fragment"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
+        android:id="@+id/txtResult"
+        android:text=""
+        android:singleLine="false"
+        android:layout_width="match_parent"
+        android:layout_height="350dp" />
+
+
+
+    <Button android:id="@+id/btnScan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Scan"
+        android:layout_below="@+id/txtResult"/>
+
 
 
 </RelativeLayout>

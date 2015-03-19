@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity{
-    public final static int MENU_OPTION_SHARE = Menu.FIRST, MENU_OPTION_DELETE = Menu.FIRST +1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +20,7 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, MENU_OPTION_SHARE, 0 , "分享");
-        menu.add(0, MENU_OPTION_DELETE, 1 , "刪除");
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
