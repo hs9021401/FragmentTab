@@ -37,6 +37,7 @@ public class ScanFrag extends Fragment {
     static final String CMD_GET_IMAGE = "getimage";
 
     static final String RESP_NotReadyORBusy = "NotReadyORBusy";
+    static final String RESP_Ready = "Ready";
 
     HttpClient httpClient;
     String strResultMsgSend;
@@ -85,23 +86,62 @@ public class ScanFrag extends Fragment {
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
             }else {
-
                 for (int i = 0; i < params.length; i++) {
                     if(!isCancelled()) {
                         httpClient = new DefaultHttpClient();
                         try {
-                            HttpGet get = new HttpGet("http://10.1.20.85/cgi-bin/" + params[i] + ".cgi?");
-                            HttpParams httpParams = get.getParams();
-                            //設定connection timeout 5秒
-                            HttpConnectionParams.setConnectionTimeout(httpParams,5000);
+                            if(i!=1) {
+                                HttpGet get = new HttpGet("http://10.1.20.85/cgi-bin/" + params[i] + ".cgi?");
+                                HttpParams httpParams = get.getParams();
+                                //設定connection timeout 5秒
+                                HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+                                HttpResponse response = httpClient.execute(get);
+                                HttpEntity entity = response.getEntity();
+                                strResultMsgSend = EntityUtils.toString(entity).trim();
+                                publishProgress("總張數:" + strResultMsgSend);
+                                if (strResultMsgSend.equals(RESP_NotReadyORBusy)) {
+                                    this.cancel(true);
+                                    break;
+                                }
+                            }else
+                            {
+                                //
+                                HttpGet get = new HttpGet("http://10.1.20.85/cgi-bin/" + params[i] + ".cgi?");
+                                HttpParams httpParams = get.getParams();
+                                //設定connection timeout 5秒
+                                HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+                                HttpResponse response = httpClient.execute(get);
+                                HttpEntity entity = response.getEntity();
+                                strResultMsgSend = EntityUtils.toString(entity).trim();
+                                publishProgress(strResultMsgSend + " : 掃描開始");
 
-                            HttpResponse response = httpClient.execute(get);
-                            HttpEntity entity = response.getEntity();
-                            strResultMsgSend = EntityUtils.toString(entity).trim();
-                            publishProgress(strResultMsgSend);
-                            if(strResultMsgSend.equals(RESP_NotReadyORBusy)) {
-                                this.cancel(true);
-                                break;
+
+                                Boolean tag = true;
+                                while(tag)
+                                {
+                                    //停兩秒, 再去polling status
+                                    try
+                                    {
+                                        Thread.sleep(2000);
+                                    }catch(InterruptedException ex)
+                                    {
+                                        publishProgress(ex.getMessage());
+                                    }
+
+                                    //get status
+                                     get = new HttpGet("http://10.1.20.85/cgi-bin/" + params[0] + ".cgi?");
+                                     httpParams = get.getParams();
+                                    //設定connection timeout 5秒
+                                    HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
+                                     response = httpClient.execute(get);
+                                     entity = response.getEntity();
+                                    strResultMsgSend = EntityUtils.toString(entity).trim();
+                                    publishProgress(strResultMsgSend + " : 裝置正在掃描中.....");
+                                    if(strResultMsgSend.equals(RESP_Ready)) //Device應該要設定一個掃描工作完成的flag, 不然掃描之後沒紙, 還是會處於NotReady狀態, 跳不出去迴圈
+                                    {
+                                        tag = false;
+                                    }
+                                }
                             }
                         } catch (ClientProtocolException ex) {
                             publishProgress(ex.getMessage());
@@ -119,5 +159,7 @@ public class ScanFrag extends Fragment {
             return  null;
         }
     }
+
+
 
 }
