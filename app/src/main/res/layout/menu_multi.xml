@@ -6,21 +6,21 @@
     <Button
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="Scan"
+        android:text="@string/scan"
         android:id="@+id/MenuBtnScan"
         android:layout_weight="1" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="Folder"
+        android:text="@string/folder"
         android:id="@+id/MenuBtnFolder"
         android:layout_weight="1" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="Setting"
+        android:text="@string/settings"
         android:id="@+id/MenuBtnSetting"
         android:layout_weight="1" />
 </LinearLayout>

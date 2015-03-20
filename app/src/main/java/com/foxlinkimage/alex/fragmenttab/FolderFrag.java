@@ -1,7 +1,7 @@
 package com.foxlinkimage.alex.fragmenttab;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,7 +19,8 @@ import java.util.ArrayList;
  * Created by Alex on 2015/3/11.
  */
 public class FolderFrag extends Fragment{
-    final static String root_FolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/MyPicFolder";
+    SharedPreferences spDefaultSetting;
+    String strRootFolderPath;
     FileBaseAdapter fileBaseAdapter;
     TextView location;
     ListView fileList;
@@ -36,11 +37,14 @@ public class FolderFrag extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        spDefaultSetting = getActivity().getSharedPreferences("SETTINGS", 0);
+        strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
+
         location = (TextView)view.findViewById(R.id.location);
-        location.setText(root_FolderPath);
+        location.setText(strRootFolderPath);
 
         //取得資料夾內所有的檔案(包含子資料夾)
-        final ArrayList<File> FilesInFolder = GetFiles(root_FolderPath);
+        final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);
         fileList = (ListView)getActivity().findViewById(R.id.fileList);
         fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -52,7 +56,7 @@ public class FolderFrag extends Fragment{
                     location.setText(tmp.getPath());
                     FilesInFolder.clear();
                     ArrayList<File> getSubFolderFile = GetFiles(tmp.getPath());
-                    if(!tmp_path.equals(root_FolderPath)) {
+                    if(!tmp_path.equals(strRootFolderPath)) {
                         FilesInFolder.add(tmp.getParentFile());
                     }
                     for(int i=0;i<getSubFolderFile.size();i++)
@@ -74,7 +78,6 @@ public class FolderFrag extends Fragment{
                 * 將Context也傳過去, 因為使用inflater時會需要, Google文件如下
                 * LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 * */
-
             fileBaseAdapter = new FileBaseAdapter(getActivity(), FilesInFolder);
             fileList.setAdapter(fileBaseAdapter);
         }

@@ -7,11 +7,30 @@
     android:orientation="vertical"
     tools:context=".MainActivity$PlaceholderFragment">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Setting Fragment"
-        />
+        android:text="IP: "/>
 
+    <EditText
+        android:id="@+id/IP"
+        android:text="10.1.20.85"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="儲存圖片資料夾: "/>
+
+    <EditText
+        android:id="@+id/RootFolder"
+        android:text="/storage/emulated/0/Pictures/MyPicFolder"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
