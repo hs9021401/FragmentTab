@@ -59,11 +59,12 @@ public class FolderFrag extends Fragment{
                     if(!tmp_path.equals(strRootFolderPath)) {
                         FilesInFolder.add(tmp.getParentFile());
                     }
-                    for(int i=0;i<getSubFolderFile.size();i++)
-                    {
-                        FilesInFolder.add(getSubFolderFile.get(i));
-                    }
 
+                    if(getSubFolderFile != null) {
+                        for (int i = 0; i < getSubFolderFile.size(); i++) {
+                            FilesInFolder.add(getSubFolderFile.get(i));
+                        }
+                    }
                     fileList.setAdapter(fileBaseAdapter);
                 }
             }

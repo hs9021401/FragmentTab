@@ -67,10 +67,6 @@ public class ScanFrag extends Fragment {
     Button btnScan;
     ProgressBar progressBar;
 
-//    static final File publicPicFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//    static final File customCreateFolder = new File(publicPicFolder, "MyPicFolder");
-
-
     public ScanFrag() {
     }
 
@@ -101,8 +97,11 @@ public class ScanFrag extends Fragment {
             public void onClick(View v) {
                 DoScanTask GetStatus = new DoScanTask();
                 GetStatus.execute(CMD_GET_STATUS, CMD_DO_SCAN, CMD_GET_IMAGE_COUNT);
+
+                if(iImgCount != 0){
                 DownloadImageTask downloadImageTask = new DownloadImageTask();
                 downloadImageTask.execute(CMD_GET_IMAGE);
+                }
             }
         });
 
