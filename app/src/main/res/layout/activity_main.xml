@@ -2,26 +2,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ff86ffb7"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:id="@+id/container"
-        android:background="#aaa"
         android:layout_weight="0.85"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="0dp">
+        android:background="#ff86ffb7"
+        >
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/menuContainer"
         android:layout_weight="0.15"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#eee"
         android:orientation="vertical"
-        android:layout_height="0dp">
+        android:background="#ff86ffb7">
+
     </LinearLayout>
 
 </LinearLayout>

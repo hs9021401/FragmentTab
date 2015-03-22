@@ -15,7 +15,6 @@
 
     <EditText
         android:id="@+id/IP"
-        android:text="10.1.20.85"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -28,7 +27,6 @@
 
     <EditText
         android:id="@+id/RootFolder"
-        android:text="/storage/emulated/0/Pictures/MyPicFolder"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

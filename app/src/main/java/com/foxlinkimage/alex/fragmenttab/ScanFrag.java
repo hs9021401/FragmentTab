@@ -51,6 +51,8 @@ public class ScanFrag extends Fragment {
     static final String RESP_Ready = "Ready";
     static final String RESP_OK = "ok";
 
+    static final String PREF = "SETTINGS";
+
     HttpClient httpClient;
     HttpGet httpGet;
     HttpParams httpParams;  //存放連線的設定參數
@@ -82,7 +84,7 @@ public class ScanFrag extends Fragment {
         * The method getSharedPreferences is a method of the Context object, so just calling getSharedPreferences from a Fragment will not work...
         * because it is not a Context! (Activity is an extension of Context, so we can call getSharedPreferences from it).
         */
-        spDefaultSetting = getActivity().getSharedPreferences("SETTINGS", 0);
+        spDefaultSetting = getActivity().getSharedPreferences(PREF, 0);
         strIP = spDefaultSetting.getString("IP", "192.168.1.1"); //192.168.1.1為如果抓不到資料所設定的預設值
 
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
