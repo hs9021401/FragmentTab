@@ -37,7 +37,7 @@ public class FolderFrag extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        spDefaultSetting = getActivity().getSharedPreferences("SETTINGS", 0);
+        spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.PREF, 0);
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
 
         location = (TextView)view.findViewById(R.id.location);

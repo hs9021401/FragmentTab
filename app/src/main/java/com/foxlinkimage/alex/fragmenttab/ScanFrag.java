@@ -51,7 +51,7 @@ public class ScanFrag extends Fragment {
     static final String RESP_Ready = "Ready";
     static final String RESP_OK = "ok";
 
-    static final String PREF = "SETTINGS";
+
 
     HttpClient httpClient;
     HttpGet httpGet;
@@ -84,7 +84,7 @@ public class ScanFrag extends Fragment {
         * The method getSharedPreferences is a method of the Context object, so just calling getSharedPreferences from a Fragment will not work...
         * because it is not a Context! (Activity is an extension of Context, so we can call getSharedPreferences from it).
         */
-        spDefaultSetting = getActivity().getSharedPreferences(PREF, 0);
+        spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.PREF, 0);
         strIP = spDefaultSetting.getString("IP", "192.168.1.1"); //192.168.1.1為如果抓不到資料所設定的預設值
 
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
@@ -126,7 +126,7 @@ public class ScanFrag extends Fragment {
                         httpClient = new DefaultHttpClient();
                         //執行非doscan的判斷式 (httpGet status, getimagecount)
                         if (!params[i].equals(CMD_DO_SCAN)) {
-                            strResultMsgSend = GetReturnData(params[i]);
+                            strResultMsgSend = getReturnData(params[i]);
                             if (strResultMsgSend.equals(RESP_NotReady) || strResultMsgSend.equals(RESP_Busy)) {
                                 publishProgress(strResultMsgSend + "機台可能正在掃描中或未插入文件, 請檢查無誤後再次按下Scan...");
                                 this.cancel(true);  //發現機器沒紙或者是正在掃描, 將task停止
@@ -140,7 +140,7 @@ public class ScanFrag extends Fragment {
                             }
                         } else //執行doscan的判斷式
                         {
-                            strResultMsgSend = GetReturnData(params[i]);
+                            strResultMsgSend = getReturnData(params[i]);
                             if (strResultMsgSend.equals(RESP_OK)) {
                                 publishProgress(strResultMsgSend + " : 掃描開始");
                                 Boolean tag = true;
@@ -152,7 +152,7 @@ public class ScanFrag extends Fragment {
                                         publishProgress(ex.getMessage());
                                     }
                                     //httpGet status
-                                    strResultMsgSend = GetReturnData(params[0]);
+                                    strResultMsgSend = getReturnData(params[0]);
                                     publishProgress(strResultMsgSend + " : 裝置正在掃描中.....");
                                     if (!strResultMsgSend.equals(RESP_Busy))    //如果裝置已經不是非Busy狀態, 表示掃完狀態 ,停止polling
                                     {
@@ -189,7 +189,7 @@ public class ScanFrag extends Fragment {
         }
     }
 
-    String GetReturnData(String params) {
+    String getReturnData(String params) {
         String retData;
         try {
             httpGet = new HttpGet("http://" + strIP + "/cgi-bin/" + params + ".cgi?");
@@ -246,7 +246,6 @@ public class ScanFrag extends Fragment {
                         output.flush();
                         output.close();
                         input.close();
-                        //publishProgress((int) ( (i+1)*100 / iImgCount));
                     }
                 } catch (ClientProtocolException ex) {
                     ex.printStackTrace();

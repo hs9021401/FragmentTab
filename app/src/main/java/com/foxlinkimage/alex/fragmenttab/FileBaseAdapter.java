@@ -30,6 +30,7 @@ public class FileBaseAdapter extends BaseAdapter {
     SharedPreferences spDefaultSetting;
     String strRootFolder;
 
+
     FileBaseAdapter(Context context, ArrayList<File> files) {
         this.files = files;
         this.context = context;
@@ -52,12 +53,14 @@ public class FileBaseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        //使用ViewHolder Pattern(Google強烈建議使用), setTag() getTag(),目的在於降低因為在上下滑動時所造成多次getView()動作所導致的效率差現象
+        //使用ViewHolder Pattern(Google強烈建議使用) ---> setTag() getTag(),
+        // 因為在上下滑動時會一直執行getView()動作, 如果沒有使用這個Pattern, 就每次都會去佈局文件中去拿到你的View
+        // 導致效率低下, 利用viewHolder方法, 可以暫存view起來, 如果滑動過程發現該view存在, 就直接取出使用
         //可參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
         ViewHolder viewHolder;
-        //判斷是icon或者是folder
-        final File file_judgement = files.get(position);
-        spDefaultSetting = context.getSharedPreferences("SETTINGS", 0);
+
+        final File fileJudgement = files.get(position); //用以判斷是icon或者是folder
+        spDefaultSetting = context.getSharedPreferences(SettingFrag.PREF, 0);
         strRootFolder = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
 
         if (convertView == null) {
@@ -71,16 +74,15 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.multiselect = (CheckBox) convertView.findViewById(R.id.multiSelect);
             convertView.setTag(viewHolder);
         } else {
-            //如果在上下滑動時發現該item是已經存在的, 就不需要重新new物件出來
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         //Folder
-        if (file_judgement.isDirectory()) {
-            if (file_judgement.getPath().equals(strRootFolder)) {   //如果資料夾是Root資料夾, 就顯示... , 否則顯示該資料夾名稱
+        if (fileJudgement.isDirectory()) {
+            if (fileJudgement.getPath().equals(strRootFolder)) {   //如果資料夾是Root資料夾, 就顯示... , 否則顯示該資料夾名稱
                 viewHolder.filename.setText("...");
             }else{
-                viewHolder.filename.setText(file_judgement.getName());
+                viewHolder.filename.setText(fileJudgement.getName());
             }
             viewHolder.icon.setImageResource(R.drawable.icon_folder);
             viewHolder.viewimg.setVisibility(View.INVISIBLE);
@@ -98,7 +100,7 @@ public class FileBaseAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(file_judgement), "image/png");
+                    intent.setDataAndType(Uri.fromFile(fileJudgement), "image/png");
                     context.startActivity(intent);
                 }
             });
@@ -108,7 +110,7 @@ public class FileBaseAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     //使用第三方library, 幫助切割
                     Intent it = new Intent(context, CropImage.class);
-                    String file_path = file_judgement.getPath();
+                    String file_path = fileJudgement.getPath();
                     it.putExtra(CropImage.IMAGE_PATH, file_path);
                     it.putExtra(CropImage.SCALE, true);
                     it.putExtra(CropImage.ASPECT_X, 3);
