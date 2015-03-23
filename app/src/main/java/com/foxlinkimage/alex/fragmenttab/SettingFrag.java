@@ -14,7 +14,7 @@ import android.widget.EditText;
  * Created by Alex on 2015/3/11.
  */
 public class SettingFrag extends Fragment {
-    static final String PREF = "SETTINGS";
+    static final String SHARED_PREF = "SETTINGS";
     SharedPreferences spDefaultSetting;
     EditText edtIP, edtRootFolder;
 
@@ -38,7 +38,7 @@ public class SettingFrag extends Fragment {
         //MODE_PRIVATE 只有這個程式可以用,  其實也就只是個常數 0
         //MODE_WORLD_READABLE 所有程式可以讀取
         //MODE_WORLD_WRITEABLE 所有程式可以修改
-        spDefaultSetting = getActivity().getSharedPreferences(PREF, Context.MODE_PRIVATE);
+        spDefaultSetting = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         edtIP.setText(spDefaultSetting.getString("IP", "10.1.20.85"));
         edtRootFolder.setText(spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder"));

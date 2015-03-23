@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Alex/AndroidStudioProjects/FragmentTab/cropimage-master/simple-crop-image-lib/res/values/strings.xml -->
+    <!-- From: file:/Users/Alex/Desktop/FragmentTab/cropimage-master/simple-crop-image-lib/res/values/strings.xml -->
     <eat-comment/>
     <string name="cancel">Cancel</string>
     <string name="no_storage_card">No storage card</string>
@@ -8,7 +8,7 @@
     <string name="preparing_card">Preparing card</string>
     <string name="save">Save</string>
     <string name="saving_image">Saving image</string>
-    <!-- From: file:/C:/Users/Alex/AndroidStudioProjects/FragmentTab/cropimage-master/simple-crop-image-lib/res/values/styles.xml -->
+    <!-- From: file:/Users/Alex/Desktop/FragmentTab/cropimage-master/simple-crop-image-lib/res/values/styles.xml -->
     <eat-comment/>
     <style name="CropButton">
         <item name="android:layout_margin">1dp</item>

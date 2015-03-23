@@ -65,7 +65,7 @@ public class ScanFrag extends Fragment {
     String strIP;
     String strRootFolderPath;
     String strResultMsgSend;
-    TextView txtResult;
+    TextView tvResult;
     Button btnScan;
     ProgressBar progressBar;
 
@@ -84,12 +84,12 @@ public class ScanFrag extends Fragment {
         * The method getSharedPreferences is a method of the Context object, so just calling getSharedPreferences from a Fragment will not work...
         * because it is not a Context! (Activity is an extension of Context, so we can call getSharedPreferences from it).
         */
-        spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.PREF, 0);
+        spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strIP = spDefaultSetting.getString("IP", "192.168.1.1"); //192.168.1.1為如果抓不到資料所設定的預設值
 
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
 
-        txtResult = (TextView) view.findViewById(R.id.txtResult);
+        tvResult = (TextView) view.findViewById(R.id.txtResult);
         btnScan = (Button) view.findViewById(R.id.btnScan);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         //progressBar.setProgress(0);
@@ -180,12 +180,12 @@ public class ScanFrag extends Fragment {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            txtResult.setText(txtResult.getText() + "\n" + values[0]);
+            tvResult.setText(tvResult.getText() + "\n" + values[0]);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            txtResult.setText(txtResult.getText() + "\n" + "開始下載圖片, 請耐心等待...");
+            tvResult.setText(tvResult.getText() + "\n" + "開始下載圖片, 請耐心等待...");
         }
     }
 
@@ -265,7 +265,7 @@ public class ScanFrag extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            txtResult.setText(txtResult.getText() + "\n" + "圖片已儲存完畢");
+            tvResult.setText(tvResult.getText() + "\n" + "圖片已儲存完畢");
         }
     }
 

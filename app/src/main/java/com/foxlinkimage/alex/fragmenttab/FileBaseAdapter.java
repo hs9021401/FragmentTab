@@ -24,7 +24,7 @@ import eu.janmuller.android.simplecropimage.CropImage;
  */
 public class FileBaseAdapter extends BaseAdapter {
     public static final int REQUEST_CODE_CROP_IMAGE = 0x01;
-    ArrayList<File> files;
+    ArrayList<File> alFiles;
     LayoutInflater mInflater;
     Context context;
     SharedPreferences spDefaultSetting;
@@ -32,18 +32,18 @@ public class FileBaseAdapter extends BaseAdapter {
 
 
     FileBaseAdapter(Context context, ArrayList<File> files) {
-        this.files = files;
+        this.alFiles = files;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return files.size();
+        return alFiles.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return files.get(position);
+        return alFiles.get(position);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class FileBaseAdapter extends BaseAdapter {
         //可參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
         ViewHolder viewHolder;
 
-        final File fileJudgement = files.get(position); //用以判斷是icon或者是folder
-        spDefaultSetting = context.getSharedPreferences(SettingFrag.PREF, 0);
+        final File fileJudgement = alFiles.get(position); //用以判斷是icon或者是folder
+        spDefaultSetting = context.getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolder = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
 
         if (convertView == null) {
@@ -90,7 +90,7 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.multiselect.setVisibility(View.INVISIBLE);
         } else {
             viewHolder.icon.setImageResource(R.drawable.icon_image);
-            viewHolder.filename.setText(files.get(position).getName());
+            viewHolder.filename.setText(alFiles.get(position).getName());
             viewHolder.viewimg.setVisibility(View.VISIBLE);
             viewHolder.cropimg.setVisibility(View.VISIBLE);
             viewHolder.multiselect.setVisibility(View.VISIBLE);
