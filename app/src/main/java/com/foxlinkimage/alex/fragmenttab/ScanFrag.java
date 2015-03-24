@@ -92,7 +92,7 @@ public class ScanFrag extends Fragment {
         tvResult = (TextView) view.findViewById(R.id.txtResult);
         btnScan = (Button) view.findViewById(R.id.btnScan);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        //progressBar.setProgress(0);
+        progressBar.setProgress(0);
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +126,7 @@ public class ScanFrag extends Fragment {
                         httpClient = new DefaultHttpClient();
                         //執行非doscan的判斷式 (httpGet status, getimagecount)
                         if (!params[i].equals(CMD_DO_SCAN)) {
-                            strResultMsgSend = getReturnData(params[i]);
+                            strResultMsgSend = getReturnMessage(params[i]);
                             if (strResultMsgSend.equals(RESP_NotReady) || strResultMsgSend.equals(RESP_Busy)) {
                                 publishProgress(strResultMsgSend + "機台可能正在掃描中或未插入文件, 請檢查無誤後再次按下Scan...");
                                 this.cancel(true);  //發現機器沒紙或者是正在掃描, 將task停止
@@ -140,7 +140,7 @@ public class ScanFrag extends Fragment {
                             }
                         } else //執行doscan的判斷式
                         {
-                            strResultMsgSend = getReturnData(params[i]);
+                            strResultMsgSend = getReturnMessage(params[i]);
                             if (strResultMsgSend.equals(RESP_OK)) {
                                 publishProgress(strResultMsgSend + " : 掃描開始");
                                 Boolean tag = true;
@@ -152,7 +152,7 @@ public class ScanFrag extends Fragment {
                                         publishProgress(ex.getMessage());
                                     }
                                     //httpGet status
-                                    strResultMsgSend = getReturnData(params[0]);
+                                    strResultMsgSend = getReturnMessage(params[0]);
                                     publishProgress(strResultMsgSend + " : 裝置正在掃描中.....");
                                     if (!strResultMsgSend.equals(RESP_Busy))    //如果裝置已經不是非Busy狀態, 表示掃完狀態 ,停止polling
                                     {
@@ -189,28 +189,28 @@ public class ScanFrag extends Fragment {
         }
     }
 
-    String getReturnData(String params) {
-        String retData;
+    String getReturnMessage(String params) {
+        String strReturnMessage;
         try {
             httpGet = new HttpGet("http://" + strIP + "/cgi-bin/" + params + ".cgi?");
             httpParams = httpGet.getParams();
             HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
             httpResponse = httpClient.execute(httpGet);
             httpEntity = httpResponse.getEntity();
-            retData = EntityUtils.toString(httpEntity).trim();
+            strReturnMessage = EntityUtils.toString(httpEntity).trim();
         } catch (ClientProtocolException ex) {
-            retData = ex.getMessage() + " Timeout!! 請檢查IP設定或裝置連線狀態.";
+            strReturnMessage = ex.getMessage() + " Timeout!! 請檢查IP設定或裝置連線狀態.";
         } catch (IOException ex) {
-            retData = ex.getMessage();
+            strReturnMessage = ex.getMessage();
         }
-        return retData;
+        return strReturnMessage;
     }
 
     class DownloadImageTask extends AsyncTask<String, Integer, Void> {
         @Override
         protected Void doInBackground(String... params) {
             //建立子task資料夾
-            String timestamp = new SimpleDateFormat("yyyyMMddmmss", Locale.TAIWAN).format(new Date());
+            String timestamp = new SimpleDateFormat("yyyyMMdd", Locale.TAIWAN).format(new Date());
             File fileRootFolder = new File(strRootFolderPath);
             File fileSubTaskFolder = new File(fileRootFolder + "/" + timestamp);
             if (!fileSubTaskFolder.exists()) {
