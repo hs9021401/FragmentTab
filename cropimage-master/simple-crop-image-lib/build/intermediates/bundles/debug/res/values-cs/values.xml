@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Alex/Desktop/FragmentTab/cropimage-master/simple-crop-image-lib/res/values-cs/strings.xml -->
+    <!-- From: file:/C:/Users/Alex/AndroidStudioProjects/FragmentTab/cropimage-master/simple-crop-image-lib/res/values-cs/strings.xml -->
     <eat-comment/>
     <string name="cancel">Zrušit</string>
     <string name="no_storage_card">Žádná SD karta</string>
