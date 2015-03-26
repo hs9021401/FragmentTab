@@ -1,5 +1,6 @@
 package com.foxlinkimage.alex.fragmenttab;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,7 @@ public class ScanFrag extends Fragment {
     static final String RESP_Ready = "Ready";
     static final String RESP_OK = "ok";
 
-
+    final static String DEBUG_TAG = "HIDDEN";
 
     HttpClient httpClient;
     HttpGet httpGet;
@@ -74,12 +76,14 @@ public class ScanFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG, "Scan onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_scan, null);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG, "Scan onViewCreated()");
     /*
         * The method getSharedPreferences is a method of the Context object, so just calling getSharedPreferences from a Fragment will not work...
         * because it is not a Context! (Activity is an extension of Context, so we can call getSharedPreferences from it).
@@ -101,8 +105,8 @@ public class ScanFrag extends Fragment {
                 GetStatus.execute(CMD_GET_STATUS, CMD_DO_SCAN, CMD_GET_IMAGE_COUNT);
 
                 if(iImgCount != 0){
-                DownloadImageTask downloadImageTask = new DownloadImageTask();
-                downloadImageTask.execute(CMD_GET_IMAGE);
+                    DownloadImageTask downloadImageTask = new DownloadImageTask();
+                    downloadImageTask.execute(CMD_GET_IMAGE);
                 }
             }
         });
@@ -270,4 +274,66 @@ public class ScanFrag extends Fragment {
     }
 
 
+    @Override
+    public void onDetach() {
+        Log.d(DEBUG_TAG, "Scan onDetach()");
+        super.onDetach();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(DEBUG_TAG,"Scan onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        Log.d(DEBUG_TAG,"Scan onAttach()");
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Scan onActivityCreated()");
+
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(DEBUG_TAG,"Scan onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d(DEBUG_TAG,"Scan onDestroyView()");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(DEBUG_TAG,"Scan onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        Log.d(DEBUG_TAG,"Scan onStart()");
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(DEBUG_TAG,"Scan onStop()");
+        super.onStop();
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Scan onCreate()");
+        super.onCreate(savedInstanceState);
+    }
 }

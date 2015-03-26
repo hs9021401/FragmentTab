@@ -1,9 +1,11 @@
 package com.foxlinkimage.alex.fragmenttab;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,18 +26,21 @@ public class FolderFrag extends Fragment{
     FileBaseAdapter fileBaseAdapter;
     TextView tvLocation;
     ListView lvFileList;
+    final static String DEBUG_TAG = "HIDDEN";
 
     public FolderFrag()
     {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Folder onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_folder, container, false);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Folder onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
         spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
@@ -74,13 +79,14 @@ public class FolderFrag extends Fragment{
         {
             lvFileList.setEmptyView(getActivity().findViewById(R.id.empty));
         }else{
-        /**
-                * 將Context也傳過去, 因為使用inflater時會需要, Google文件如下
-                * LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                * */
+            /**
+             * 將Context也傳過去, 因為使用inflater時會需要, Google文件如下
+             * LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+             * */
             fileBaseAdapter = new FileBaseAdapter(getActivity(), FilesInFolder);
             lvFileList.setAdapter(fileBaseAdapter);
         }
+
     }
 
 
@@ -104,4 +110,68 @@ public class FolderFrag extends Fragment{
         //右上角Menu分享與刪除的功能
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public void onDetach() {
+        Log.d(DEBUG_TAG, "Folder onDetach()");
+        super.onDetach();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(DEBUG_TAG,"Folder onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        Log.d(DEBUG_TAG,"Folder onAttach()");
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Folder onActivityCreated()");
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(DEBUG_TAG,"Folder onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d(DEBUG_TAG,"Folder onDestroyView()");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(DEBUG_TAG,"Folder onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        Log.d(DEBUG_TAG,"Folder onStart()");
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(DEBUG_TAG,"Folder onStop()");
+        super.onStop();
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"Folder onCreate()");
+        super.onCreate(savedInstanceState);
+    }
+
 }
