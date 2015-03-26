@@ -51,6 +51,8 @@ public class ScanFrag extends Fragment {
     static final String RESP_Ready = "Ready";
     static final String RESP_OK = "ok";
 
+
+
     HttpClient httpClient;
     HttpGet httpGet;
     HttpParams httpParams;  //存放連線的設定參數
