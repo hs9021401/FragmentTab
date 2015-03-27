@@ -11,7 +11,7 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG,"Main onCreate()");
+        Log.d(DEBUG_TAG,"onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -36,37 +36,37 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     protected void onStop() {
-        Log.d(DEBUG_TAG,"Main onStop()");
+        Log.d(DEBUG_TAG,"onStop()");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(DEBUG_TAG,"Main onDestroy()");
+        Log.d(DEBUG_TAG,"onDestroy()");
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        Log.d(DEBUG_TAG,"Main onPause()");
+        Log.d(DEBUG_TAG,"onPause()");
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        Log.d(DEBUG_TAG,"Main onResume()");
+        Log.d(DEBUG_TAG,"onResume()");
         super.onResume();
     }
 
     @Override
     protected void onStart() {
-        Log.d(DEBUG_TAG,"Main onStart()");
+        Log.d(DEBUG_TAG,"onStart()");
         super.onStart();
     }
 
     @Override
     protected void onRestart() {
-        Log.d(DEBUG_TAG,"Main onRestart()");
+        Log.d(DEBUG_TAG,"onRestart()");
         super.onRestart();
     }
 }

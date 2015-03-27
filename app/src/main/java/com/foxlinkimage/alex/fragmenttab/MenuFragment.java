@@ -20,7 +20,6 @@ public class MenuFragment extends Fragment {
     Fragment fragFolder;
     Fragment fragSetting;
 
-    FragmentTransaction fragmentTransaction;
     String strTagNowFragment;
 
     final static String DEBUG_TAG = "HIDDEN";
@@ -30,7 +29,7 @@ public class MenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG,"onCreateView()");
+        Log.d(DEBUG_TAG,"Menu onCreateView()");
         View view = inflater.inflate(R.layout.fragment_menu, viewGroup, false);
         Button btnScan = (Button)view.findViewById(R.id.MenuBtnScan);
         Button btnFolder = (Button)view.findViewById(R.id.MenuBtnFolder);
@@ -90,62 +89,63 @@ public class MenuFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        Log.d(DEBUG_TAG,"onDetach()");
+        Log.d(DEBUG_TAG,"Menu onDetach()");
         super.onDetach();
     }
 
     @Override
     public void onPause() {
-        Log.d(DEBUG_TAG,"onPause()");
+        Log.d(DEBUG_TAG,"Menu onPause()");
         super.onPause();
     }
 
     @Override
     public void onAttach(Activity activity) {
-        Log.d(DEBUG_TAG,"onAttach()");
+        Log.d(DEBUG_TAG,"Menu onAttach()");
         super.onAttach(activity);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG,"onActivityCreated()");
+        Log.d(DEBUG_TAG,"Menu onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onResume() {
-        Log.d(DEBUG_TAG,"onResume()");
+        Log.d(DEBUG_TAG,"Menu onResume()");
         super.onResume();
     }
 
     @Override
     public void onDestroyView() {
-        Log.d(DEBUG_TAG,"onDestroyView()");
+        Log.d(DEBUG_TAG,"Menu onDestroyView()");
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        Log.d(DEBUG_TAG,"onDestroy()");
+        Log.d(DEBUG_TAG,"Menu onDestroy()");
         super.onDestroy();
     }
 
     @Override
     public void onStart() {
-        Log.d(DEBUG_TAG,"onStart()");
+        Log.d(DEBUG_TAG,"Menu onStart()");
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        Log.d(DEBUG_TAG,"onStop()");
+        Log.d(DEBUG_TAG,"Menu onStop()");
         super.onStop();
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG,"onCreate()");
+        Log.d(DEBUG_TAG,"Menu onCreate()");
+
         super.onCreate(savedInstanceState);
     }
 
