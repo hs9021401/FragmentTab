@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,11 +31,13 @@ public class FileBaseAdapter extends BaseAdapter {
     String strRootFolder;
 
     ArrayList<String> alSelectedFiles;  //用來儲存被選中的檔案
+    boolean [] b_arrChecked;    //用來儲存check的狀態
 
     FileBaseAdapter(Context context, ArrayList<File> files) {
         alSelectedFiles = new ArrayList<>();
         this.alFiles = files;
         this.context = context;
+        b_arrChecked = new boolean[files.size()];
     }
 
     @Override
@@ -55,11 +56,10 @@ public class FileBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         //ViewHolder Pattern
         //參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
         final ViewHolder viewHolder;
-
         final File fileJudgement = alFiles.get(position); //用以判斷是icon或者是folder
         spDefaultSetting = context.getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolder = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
@@ -73,12 +73,22 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.cropimg = (Button) convertView.findViewById(R.id.crop);
             viewHolder.viewimg = (Button) convertView.findViewById(R.id.view);
             viewHolder.multiselect = (CheckBox) convertView.findViewById(R.id.multiSelect);
-            viewHolder.bSelect = false;
-            viewHolder.multiselect.setChecked(viewHolder.bSelect);  //03-27 加入bSelect, 為了解決在Scroll時, checkbox會自動勾起
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        //3-27 用以解決在上下滑動時候, check狀態會亂跑
+        viewHolder.multiselect.setChecked(b_arrChecked[position]);
+        viewHolder.multiselect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((CheckBox)v).isChecked())
+                    b_arrChecked[position] = true;
+                else
+                    b_arrChecked[position] = false;
+            }
+        });
 
         //Folder
         if (fileJudgement.isDirectory()) {
@@ -123,27 +133,6 @@ public class FileBaseAdapter extends BaseAdapter {
                 }
             });
 
-            //checkbox 事件
-            viewHolder.multiselect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)
-                    {
-                        alSelectedFiles.add(fileJudgement.getPath());
-                    }else
-                    {
-                        for(int i=0; i<alSelectedFiles.size();i++)
-                        {
-                            if(alSelectedFiles.get(i).equals(fileJudgement.getPath()))
-                            {
-                                alSelectedFiles.remove(i);
-                            }
-                        }
-                    }
-                }
-            });
-
-
         }
         return convertView;
     }
@@ -162,7 +151,6 @@ public class FileBaseAdapter extends BaseAdapter {
         Button viewimg;
         Button cropimg;
         CheckBox multiselect;
-        Boolean bSelect;
     }
 
 }
