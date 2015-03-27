@@ -46,15 +46,13 @@ public class FolderFrag extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG, "Folder onViewCreated()");
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG, "Folder onActivityCreated()");
         setHasOptionsMenu(true);    //使用自己的option menu
-
         spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
         final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);        //取得資料夾內所有的檔案(包含子資料夾)
-        tvLocation = (TextView) view.findViewById(R.id.location);
+        tvLocation = (TextView) getActivity().findViewById(R.id.location);
         tvLocation.setText(strRootFolderPath);
 
         lvFileList = (ListView) getActivity().findViewById(R.id.fileList);
@@ -91,6 +89,7 @@ public class FolderFrag extends Fragment {
             lvFileList.setAdapter(fileBaseAdapter);
         }
 
+        super.onActivityCreated(savedInstanceState);
     }
 
 
@@ -168,12 +167,6 @@ public class FolderFrag extends Fragment {
         super.onAttach(activity);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(DEBUG_TAG, "Folder onActivityCreated()");
-
-        super.onActivityCreated(savedInstanceState);
-    }
 
     @Override
     public void onResume() {
