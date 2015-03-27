@@ -145,7 +145,6 @@ public class MenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(DEBUG_TAG,"Menu onCreate()");
-
         super.onCreate(savedInstanceState);
     }
 

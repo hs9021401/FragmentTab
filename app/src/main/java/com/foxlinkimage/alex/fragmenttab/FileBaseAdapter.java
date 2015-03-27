@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,8 +31,10 @@ public class FileBaseAdapter extends BaseAdapter {
     SharedPreferences spDefaultSetting;
     String strRootFolder;
 
+    ArrayList<String> alSelectedFiles;  //用來儲存被選中的檔案
 
     FileBaseAdapter(Context context, ArrayList<File> files) {
+        alSelectedFiles = new ArrayList<>();
         this.alFiles = files;
         this.context = context;
     }
@@ -53,18 +56,16 @@ public class FileBaseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        //使用ViewHolder Pattern(Google強烈建議使用) ---> setTag() getTag(),
-        // 因為在上下滑動時會一直執行getView()動作, 如果沒有使用這個Pattern, 就每次都會去佈局文件中去拿到你的View
-        // 導致效率低下, 利用viewHolder方法, 可以暫存view起來, 如果滑動過程發現該view存在, 就直接取出使用
-        //可參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
-        ViewHolder viewHolder;
+        //ViewHolder Pattern
+        //參考文章說明 http://lp43.blogspot.tw/2011_02_01_archive.html
+        final ViewHolder viewHolder;
 
         final File fileJudgement = alFiles.get(position); //用以判斷是icon或者是folder
         spDefaultSetting = context.getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolder = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
 
         if (convertView == null) {
-            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = LayoutInflater.from(context); //或 mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 都一樣
             viewHolder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.file_item, viewGroup, false);
             viewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -72,6 +73,8 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.cropimg = (Button) convertView.findViewById(R.id.crop);
             viewHolder.viewimg = (Button) convertView.findViewById(R.id.view);
             viewHolder.multiselect = (CheckBox) convertView.findViewById(R.id.multiSelect);
+            viewHolder.bSelect = false;
+            viewHolder.multiselect.setChecked(viewHolder.bSelect);  //03-27 加入bSelect, 為了解決在Scroll時, checkbox會自動勾起
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -94,6 +97,7 @@ public class FileBaseAdapter extends BaseAdapter {
             viewHolder.viewimg.setVisibility(View.VISIBLE);
             viewHolder.cropimg.setVisibility(View.VISIBLE);
             viewHolder.multiselect.setVisibility(View.VISIBLE);
+
             //檢視圖片
             viewHolder.viewimg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,8 +122,38 @@ public class FileBaseAdapter extends BaseAdapter {
                     ((Activity) context).startActivityForResult(it, REQUEST_CODE_CROP_IMAGE);
                 }
             });
+
+            //checkbox 事件
+            viewHolder.multiselect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                    {
+                        alSelectedFiles.add(fileJudgement.getPath());
+                    }else
+                    {
+                        for(int i=0; i<alSelectedFiles.size();i++)
+                        {
+                            if(alSelectedFiles.get(i).equals(fileJudgement.getPath()))
+                            {
+                                alSelectedFiles.remove(i);
+                            }
+                        }
+                    }
+                }
+            });
+
+
         }
         return convertView;
+    }
+
+    //公用函式: 提供外部程式呼叫. 傳回被選擇的檔案名字
+    public ArrayList<String> getSelectedFiles()
+    {
+        ArrayList<String> files;
+        files = alSelectedFiles;
+        return files;
     }
 
     private class ViewHolder {
@@ -128,6 +162,7 @@ public class FileBaseAdapter extends BaseAdapter {
         Button viewimg;
         Button cropimg;
         CheckBox multiselect;
+        Boolean bSelect;
     }
 
 }
