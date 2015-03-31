@@ -31,7 +31,7 @@ public class FileBaseAdapter extends BaseAdapter {
     String strRootFolder;
 
     ArrayList<String> alSelectedFiles;  //用來儲存被選中的檔案
-    boolean [] b_arrChecked;    //用來儲存check的狀態
+    boolean[] b_arrChecked;    //用來儲存check的狀態
 
     FileBaseAdapter(Context context, ArrayList<File> files) {
         alSelectedFiles = new ArrayList<>();
@@ -83,10 +83,20 @@ public class FileBaseAdapter extends BaseAdapter {
         viewHolder.multiselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((CheckBox)v).isChecked())
+
+                if (((CheckBox) v).isChecked()) {
                     b_arrChecked[position] = true;
-                else
+                    alSelectedFiles.add(getItem(position).toString());
+                } else {
                     b_arrChecked[position] = false;
+                    for (int i = 0; i < alSelectedFiles.size(); i++) {
+                        if (alSelectedFiles.get(i) == getItem(position).toString()) {
+                            alSelectedFiles.remove(i);
+                            break;
+                        }
+                    }
+
+                }
             }
         });
 
@@ -94,7 +104,7 @@ public class FileBaseAdapter extends BaseAdapter {
         if (fileJudgement.isDirectory()) {
             if (fileJudgement.getPath().equals(strRootFolder)) {   //如果資料夾是Root資料夾, 就顯示... , 否則顯示該資料夾名稱
                 viewHolder.filename.setText("...");
-            }else{
+            } else {
                 viewHolder.filename.setText(fileJudgement.getName());
             }
             viewHolder.icon.setImageResource(R.drawable.icon_folder);
@@ -138,8 +148,7 @@ public class FileBaseAdapter extends BaseAdapter {
     }
 
     //公用函式: 提供外部程式呼叫. 傳回被選擇的檔案名字
-    public ArrayList<String> getSelectedFiles()
-    {
+    public ArrayList<String> getSelectedFiles() {
         ArrayList<String> files;
         files = alSelectedFiles;
         return files;
