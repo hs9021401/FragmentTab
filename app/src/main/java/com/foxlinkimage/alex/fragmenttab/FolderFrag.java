@@ -49,8 +49,8 @@ public class FolderFrag extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(DEBUG_TAG, "Folder onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);    //使用自己的option menu
 
+        setHasOptionsMenu(true);    //使用自己的option menu
         spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
         final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);        //取得資料夾內所有的檔案(包含子資料夾)
@@ -139,7 +139,7 @@ public class FolderFrag extends Fragment {
                     for(int i=0;i < alSelectedFiles.size();i++)
                     {
                         File deleteFile = new File(alSelectedFiles.get(i));
-                        Boolean bDel = deleteFile.delete();
+                        boolean bDel = deleteFile.delete();
                     }
                     //TODO 重新刷新介面部分未完成
                     final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);

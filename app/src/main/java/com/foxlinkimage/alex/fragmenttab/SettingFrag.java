@@ -54,7 +54,7 @@ public class SettingFrag extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 spDefaultSetting.edit()
                         .putString("IP", edtIP.getText().toString())
-                        .commit();
+                        .apply();
             }
         });
 
@@ -63,7 +63,7 @@ public class SettingFrag extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 spDefaultSetting.edit()
                         .putString("ROOTFOLDER", edtRootFolder.getText().toString())
-                        .commit();
+                        .apply();
             }
         });
     }

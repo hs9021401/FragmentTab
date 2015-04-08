@@ -31,6 +31,7 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         Log.d(DEBUG_TAG,"Menu onCreateView()");
         View view = inflater.inflate(R.layout.fragment_menu, viewGroup, false);
+
         Button btnScan = (Button)view.findViewById(R.id.MenuBtnScan);
         Button btnFolder = (Button)view.findViewById(R.id.MenuBtnFolder);
         Button btnSetting = (Button)view.findViewById(R.id.MenuBtnSetting);
