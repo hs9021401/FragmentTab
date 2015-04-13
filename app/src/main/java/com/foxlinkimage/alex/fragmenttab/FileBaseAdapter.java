@@ -31,13 +31,15 @@ public class FileBaseAdapter extends BaseAdapter {
     String strRootFolder;
 
     ArrayList<String> alSelectedFiles;  //用來儲存被選中的檔案
-    boolean[] b_arrChecked;    //用來儲存check的狀態
+    ArrayList<Boolean> b_arrChecked;//用來儲存check的狀態
 
     FileBaseAdapter(Context context, ArrayList<File> files) {
         alSelectedFiles = new ArrayList<>();
         this.alFiles = files;
         this.context = context;
-        b_arrChecked = new boolean[files.size()];
+        b_arrChecked = new ArrayList<>();
+        for(int i=0;i<files.size();i++)
+            b_arrChecked.add(false);
     }
 
     @Override
@@ -79,18 +81,18 @@ public class FileBaseAdapter extends BaseAdapter {
         }
 
         //3-27 用以解決在上下滑動時候, check狀態會亂跑
-        viewHolder.multiselect.setChecked(b_arrChecked[position]);
+        viewHolder.multiselect.setChecked(b_arrChecked.get(position));
         viewHolder.multiselect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (((CheckBox) v).isChecked()) {
-                    b_arrChecked[position] = true;
+                    b_arrChecked.set(position,true);
                     alSelectedFiles.add(getItem(position).toString());
                 } else {
-                    b_arrChecked[position] = false;
+                    b_arrChecked.set(position,false);
                     for (int i = 0; i < alSelectedFiles.size(); i++) {
-                        if (alSelectedFiles.get(i) == getItem(position).toString()) {
+                        if (alSelectedFiles.get(i).equals(getItem(position).toString())) {
                             alSelectedFiles.remove(i);
                             break;
                         }
@@ -152,6 +154,13 @@ public class FileBaseAdapter extends BaseAdapter {
         ArrayList<String> files;
         files = alSelectedFiles;
         return files;
+    }
+
+    //公用函式: 提供外部程式呼叫. 從alFiles刪除要被刪除的檔案名稱
+    public void Delete(String deletefile) {
+        int delete_index = alFiles.indexOf(new File(deletefile));
+        alFiles.remove(delete_index);
+        b_arrChecked.remove(delete_index);
     }
 
     private class ViewHolder {

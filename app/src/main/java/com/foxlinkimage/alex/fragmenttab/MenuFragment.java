@@ -40,6 +40,7 @@ public class MenuFragment extends Fragment {
         fragFolder = new FolderFrag();
         fragSetting = new SettingFrag();
 
+
         //設計一個旗標strTagNowFragment用來記錄目前的Fragment是什麼
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +55,9 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 switchFragment(fragFolder,"Tag_FolderFrag");
                 strTagNowFragment = "Tag_FolderFrag";
+
+//                ActivityManager manager = (ActivityManager)getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+//                Toast.makeText(getActivity(), manager.getMemoryClass(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -31,9 +31,9 @@ public class FolderFrag extends Fragment {
     TextView tvLocation;
     ListView lvFileList;
     ArrayList<String> alSelectedFiles;
+    ArrayList<File> FilesInFolder;
 
     final static String DEBUG_TAG = "HIDDEN";
-
 
     public FolderFrag() {
     }
@@ -53,7 +53,7 @@ public class FolderFrag extends Fragment {
         setHasOptionsMenu(true);    //使用自己的option menu
         spDefaultSetting = getActivity().getSharedPreferences(SettingFrag.SHARED_PREF, 0);
         strRootFolderPath = spDefaultSetting.getString("ROOTFOLDER", "/storage/emulated/0/Pictures/MyPicFolder");
-        final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);        //取得資料夾內所有的檔案(包含子資料夾)
+        FilesInFolder = GetFiles(strRootFolderPath);        //取得資料夾內所有的檔案(包含子資料夾)
         tvLocation = (TextView) view.findViewById(R.id.location);
         tvLocation.setText(strRootFolderPath);
 
@@ -135,17 +135,22 @@ public class FolderFrag extends Fragment {
                     break;
 
                 case R.id.action_delete:
-                    //刪除檔案, 並重新bind
+                    //刪除被選定的檔案
                     for(int i=0;i < alSelectedFiles.size();i++)
                     {
+                        //1. 砍掉存在在SD卡裡的檔案
                         File deleteFile = new File(alSelectedFiles.get(i));
                         boolean bDel = deleteFile.delete();
+                        //2. 從Adapter的 alFiles 裡砍掉檔案名稱
+                        fileBaseAdapter.Delete(alSelectedFiles.get(i));
                     }
-                    //TODO 重新刷新介面部分未完成
-                    final ArrayList<File> FilesInFolder = GetFiles(strRootFolderPath);
-                    fileBaseAdapter = new FileBaseAdapter(getActivity(), FilesInFolder);
-                    lvFileList.setAdapter(fileBaseAdapter);
+
+                    //利用notifyDataSetChanged()告知檔案有變動, 請重新refresh
+                    fileBaseAdapter.notifyDataSetChanged();
+
+                    alSelectedFiles.clear();
                     break;
+
             }
         }
         return super.onOptionsItemSelected(item);
