@@ -3,6 +3,8 @@ package com.foxlinkimage.alex.fragmenttab;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +20,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex on 2015/3/11.
@@ -32,6 +40,7 @@ public class FolderFrag extends Fragment {
     ListView lvFileList;
     ArrayList<String> alSelectedFiles;
     ArrayList<File> FilesInFolder;
+    List<SharePhoto> listPhoto = new ArrayList<>();
 
     final static String DEBUG_TAG = "HIDDEN";
 
@@ -41,8 +50,14 @@ public class FolderFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(DEBUG_TAG, "Folder onCreateView()");
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         View rootView = inflater.inflate(R.layout.fragment_folder, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -123,15 +138,22 @@ public class FolderFrag extends Fragment {
             switch (item.getItemId()) {
                 case R.id.action_share:
                     ArrayList<Uri> alSelectedFilesUri = new ArrayList<>();
+
+                    //add to list for facebook sharing
                     for(int i=0; i< alSelectedFiles.size();i++)
                     {
                         alSelectedFilesUri.add(Uri.parse(alSelectedFiles.get(i)));
+                        Bitmap bmp = BitmapFactory.decodeFile(alSelectedFiles.get(i));
+                        SharePhoto photo = new SharePhoto.Builder().setBitmap(bmp).build();
+                        listPhoto.add(photo);
                     }
-                    Intent sendIntent = new Intent();
-                    sendIntent.setType("image/*");
-                    sendIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                    sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, alSelectedFilesUri);
-                    startActivity(Intent.createChooser(sendIntent,"share via."));
+                    break;
+
+                //facebook sharing: show dialog
+                case R.id.action_facebook:
+                    SharePhotoContent content = new SharePhotoContent.Builder().addPhotos(listPhoto).build();
+                    ShareDialog shareDialog = new ShareDialog(getActivity());
+                    shareDialog.show(content);
                     break;
 
                 case R.id.action_delete:
@@ -149,6 +171,7 @@ public class FolderFrag extends Fragment {
                     fileBaseAdapter.notifyDataSetChanged();
 
                     alSelectedFiles.clear();
+                    listPhoto.clear();
                     break;
 
             }
@@ -185,6 +208,7 @@ public class FolderFrag extends Fragment {
     public void onResume() {
         Log.d(DEBUG_TAG, "Folder onResume()");
         super.onResume();
+        listPhoto.clear();  //20150416 add  在onResume()的時候, 清空, 避免memory累積造成memory leak.
     }
 
     @Override

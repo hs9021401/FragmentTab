@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/FragmentTab.iml" filepath="$PROJECT_DIR$/FragmentTab.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropimage-master/cropimage-master.iml" filepath="$PROJECT_DIR$/cropimage-master/cropimage-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook/facebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropimage-master/simple-crop-image-lib/simple-crop-image-lib.iml" filepath="$PROJECT_DIR$/cropimage-master/simple-crop-image-lib/simple-crop-image-lib.iml" />
     </modules>
   </component>

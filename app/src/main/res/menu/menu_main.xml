@@ -15,7 +15,18 @@
     <item
         android:id="@+id/action_share"
         android:title="@string/share"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom|withText">
+        <!--Sub menu for sharing type-->
+        <menu>
+        <item android:id="@+id/action_facebook"
+            android:title="facebook"
+            app:showAsAction="ifRoom|withText" />
+
+        <item android:id="@+id/action_dropbox"
+            android:title="dropbox"
+            app:showAsAction="ifRoom|withText" />
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_delete"

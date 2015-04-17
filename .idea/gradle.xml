@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cropimage-master" />
             <option value="$PROJECT_DIR$/cropimage-master/simple-crop-image-lib" />
+            <option value="$PROJECT_DIR$/facebook" />
           </set>
         </option>
       </GradleProjectSettings>

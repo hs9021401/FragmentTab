@@ -90,14 +90,18 @@ public class FileBaseAdapter extends BaseAdapter {
                     b_arrChecked.set(position,true);
                     alSelectedFiles.add(getItem(position).toString());
                 } else {
-                    b_arrChecked.set(position,false);
-                    for (int i = 0; i < alSelectedFiles.size(); i++) {
-                        if (alSelectedFiles.get(i).equals(getItem(position).toString())) {
-                            alSelectedFiles.remove(i);
-                            break;
-                        }
-                    }
+                    b_arrChecked.set(position, false);
 
+
+//                    for (int i = 0; i < alSelectedFiles.size(); i++) {
+//                        if (alSelectedFiles.get(i).equals(getItem(position).toString())) {
+//                            alSelectedFiles.remove(i);
+//                            break;
+//                        }
+//                    }
+//                                        刪除的code用下面兩行替代 簡化程式碼
+                    int delete_index = alSelectedFiles.indexOf(getItem(position).toString());
+                    alSelectedFiles.remove(delete_index);
                 }
             }
         });
